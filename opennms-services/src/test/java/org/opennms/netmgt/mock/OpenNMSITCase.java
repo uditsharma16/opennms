@@ -38,6 +38,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.opennms.core.db.DataSourceFactory;
+import org.opennms.core.db.XADataSourceFactory;
 import org.opennms.core.test.ConfigurationTestUtils;
 import org.opennms.core.test.MockLogAppender;
 import org.opennms.core.test.db.MockDatabase;
@@ -67,8 +68,6 @@ import org.opennms.test.mock.MockUtil;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import com.codahale.metrics.MetricRegistry;
 
@@ -135,8 +134,6 @@ public class OpenNMSITCase {
 
     private EventProxy m_eventProxy;
 
-    protected PlatformTransactionManager m_transMgr;
-    
     private MetricRegistry m_registry = new MetricRegistry();
 
     public void setVersion(int version) {
@@ -155,6 +152,7 @@ public class OpenNMSITCase {
             populateDatabase();
             
             DataSourceFactory.setInstance(m_db);
+            XADataSourceFactory.setInstance(m_db);
 
             SnmpPeerFactory.setInstance(new SnmpPeerFactory(new ByteArrayResource(getSnmpConfig().getBytes())));
             
@@ -230,9 +228,6 @@ public class OpenNMSITCase {
             }
         
         }
-        
-        m_transMgr = new DataSourceTransactionManager(DataSourceFactory.getInstance());
-
     }
 
     protected void populateDatabase() throws Exception {

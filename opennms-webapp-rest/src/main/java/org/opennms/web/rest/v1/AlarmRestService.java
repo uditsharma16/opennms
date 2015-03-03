@@ -109,7 +109,7 @@ public class AlarmRestService extends AlarmRestServiceBase {
     @Transactional
     public String getCount(@Context SecurityContext securityContext) {
         assertUserReadCredentials(securityContext);
-        return Integer.toString(m_alarmDao.countAll());
+        return Long.toString(m_alarmDao.countAll());
     }
 
     /**

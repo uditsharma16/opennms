@@ -67,7 +67,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContext;
-import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * The Test Class for SnmpCollector with MIB Object Properties.
@@ -89,10 +88,6 @@ public class SnmpCollectorWithMibPropertiesIT implements InitializingBean, TestC
 
     /** The Constant TEST_NODE_LABEL. */
     private final static String TEST_NODE_LABEL = "sample.local"; 
-
-    /** The platform transaction manager. */
-    @Autowired
-    private PlatformTransactionManager m_transactionManager;
 
     /** The Node DAO. */
     @Autowired
@@ -175,7 +170,7 @@ public class SnmpCollectorWithMibPropertiesIT implements InitializingBean, TestC
         collector.initialize(null);
 
         m_collectionSpecification = CollectorTestUtils.createCollectionSpec("SNMP", collector, "default");
-        m_collectionAgent = DefaultCollectionAgent.create(iface.getId(), m_ipInterfaceDao, m_transactionManager);
+        m_collectionAgent = DefaultCollectionAgent.create(iface.getId(), m_ipInterfaceDao);
     }
 
     /**

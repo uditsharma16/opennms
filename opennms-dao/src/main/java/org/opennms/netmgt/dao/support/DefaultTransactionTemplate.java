@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of OpenNMS(R).
  *
- * Copyright (C) 2011-2014 The OpenNMS Group, Inc.
- * OpenNMS(R) is Copyright (C) 1999-2014 The OpenNMS Group, Inc.
+ * Copyright (C) 2011-2012 The OpenNMS Group, Inc.
+ * OpenNMS(R) is Copyright (C) 1999-2012 The OpenNMS Group, Inc.
  *
  * OpenNMS(R) is a registered trademark of The OpenNMS Group, Inc.
  *
@@ -26,28 +26,16 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package org.opennms.netmgt.dao.stats;
+package org.opennms.netmgt.dao.support;
 
-import org.opennms.core.criteria.Criteria;
-import org.opennms.netmgt.dao.api.OnmsDao;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
-public abstract class AbstractBaseStatisticsService<T> implements StatisticsService<T>, InitializingBean {
+public class DefaultTransactionTemplate extends TransactionTemplate {
 
-    @Override
-    public void afterPropertiesSet() {
-        Assert.notNull(getDao());
-    }
+	private static final long serialVersionUID = -8444308519088552121L;
 
-    public abstract OnmsDao<T, Integer> getDao();
-
-    @Transactional
-    @Override
-	public long getTotalCount(final Criteria criteria) {
-        return getDao().countMatching(criteria);
+	public DefaultTransactionTemplate(PlatformTransactionManager transactionManager) {
+		super(transactionManager);
 	}
-
-
 }

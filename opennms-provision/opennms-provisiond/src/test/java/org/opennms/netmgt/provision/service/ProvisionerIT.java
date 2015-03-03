@@ -128,6 +128,7 @@ import org.springframework.core.style.ToStringCreator;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Unit test for ModelImport application.
@@ -147,6 +148,7 @@ import org.springframework.test.context.ContextConfiguration;
 })
 @JUnitConfigurationEnvironment(systemProperties="org.opennms.provisiond.enableDiscovery=false")
 @DirtiesContext(classMode=ClassMode.AFTER_EACH_TEST_METHOD) // XXX classMode right?
+@Transactional
 public class ProvisionerIT extends ProvisioningITCase implements InitializingBean, MockSnmpDataProviderAware {
     private static final Logger LOG = LoggerFactory.getLogger(ProvisionerIT.class);
     @Autowired
@@ -1314,7 +1316,7 @@ public class ProvisionerIT extends ProvisioningITCase implements InitializingBea
         getScanExecutor().pause();
         m_provisioner.scheduleRescanForExistingNodes();
         final List<NodeScanSchedule> schedulesForNode = m_provisionService.getScheduleForNodes();
-        final int nodeCount = getNodeDao().countAll();
+        final long nodeCount = getNodeDao().countAll();
         LOG.debug("NodeCount: {}", nodeCount);
 
         assertEquals(nodeCount, schedulesForNode.size());
