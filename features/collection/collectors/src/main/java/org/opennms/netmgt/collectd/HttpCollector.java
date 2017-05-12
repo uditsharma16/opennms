@@ -30,11 +30,10 @@ package org.opennms.netmgt.collectd;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -86,6 +85,7 @@ import org.opennms.netmgt.config.httpdatacollection.Attrib;
 import org.opennms.netmgt.config.httpdatacollection.HttpCollection;
 import org.opennms.netmgt.config.httpdatacollection.Parameter;
 import org.opennms.netmgt.config.httpdatacollection.Uri;
+import org.opennms.netmgt.config.httpdatacollection.Url;
 import org.opennms.netmgt.rrd.RrdRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,7 +173,7 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
         }
 
         public void collect() {
-            List<Uri> uriDefs = m_httpCollection.getUris().getUri();
+            List<Uri> uriDefs = m_httpCollection.getUris();
             for (Uri uriDef : uriDefs) {
                 m_uriDef = uriDef;
                 try {
@@ -217,7 +217,7 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
      *   - HostConfiguration class is not created here because the library
      *     builds it when a URI is defined.
      *     
-     * @param collectionSet
+     * @param collectorAgent
      * @throws HttpCollectorException
      */
     private static void doCollection(final HttpCollectorAgent collectorAgent, final CollectionSetBuilder collectionSetBuilder) throws HttpCollectorException {
@@ -250,8 +250,8 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
             }
             final HttpClientWrapper wrapper = clientWrapper;
 
-            if (collectorAgent.getUriDef().getUrl().getUserInfo() != null) {
-                final String userInfo = collectorAgent.getUriDef().getUrl().getUserInfo();
+            if (collectorAgent.getUriDef().getUrl().getUserInfo().isPresent()) {
+                final String userInfo = collectorAgent.getUriDef().getUrl().getUserInfo().get();
                 final String[] streetCred = userInfo.split(":", 2);
                 if (streetCred.length == 2) {
                     wrapper.addBasicCredentials(streetCred[0], streetCred[1]);
@@ -314,7 +314,7 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
         final boolean matches = m.matches();
         if (matches) {
             LOG.debug("processResponse: found matching attributes: {}", matches);
-            final List<Attrib> attribDefs = collectorAgent.getUriDef().getAttributes().getAttrib();
+            final List<Attrib> attribDefs = collectorAgent.getUriDef().getAttributes();
 
             final List<Locale> locales = new ArrayList<Locale>();
             if (responseLocale != null) {
@@ -431,8 +431,11 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
     }
 
     private static String determineUserAgent(final HttpCollectorAgent collectorAgent) {
-        String userAgent = collectorAgent.getUriDef().getUrl().getUserAgent();
-        return (String) (userAgent == null ? null : userAgent);
+        final Url url = collectorAgent.getUriDef().getUrl();
+        if (url.getUserAgent().isPresent()) {
+            return url.getUserAgent().get();
+        }
+        return null;
     }
 
     private static HttpVersion computeVersion(final Uri uri) {
@@ -442,16 +445,19 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
 
     private static HttpRequestBase buildHttpMethod(final HttpCollectorAgent collectorAgent) throws URISyntaxException {
         HttpRequestBase method;
-        URI uri = buildUri(collectorAgent);
-        if ("GET".equals(collectorAgent.getUriDef().getUrl().getMethod())) {
+        final URI uri = buildUri(collectorAgent);
+        final Url url = collectorAgent.getUriDef().getUrl();
+        if ("GET".equals(url.getMethod())) {
             method = buildGetMethod(uri, collectorAgent);
         } else {
             method = buildPostMethod(uri, collectorAgent);
         }
 
-        final String virtualHost = collectorAgent.getUriDef().getUrl().getVirtualHost();
-        if (virtualHost != null && !virtualHost.trim().isEmpty()) {
-            method.setHeader(HTTP.TARGET_HOST, virtualHost);
+        if (url.getVirtualHost().isPresent()) {
+            final String virtualHost = url.getVirtualHost().get();
+            if (!virtualHost.trim().isEmpty()) {
+                method.setHeader(HTTP.TARGET_HOST, virtualHost);
+            }
         }
         return method;
     }
@@ -459,12 +465,8 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
     private static HttpPost buildPostMethod(final URI uri, final HttpCollectorAgent collectorAgent) {
         HttpPost method = new HttpPost(uri);
         List<NameValuePair> postParams = buildRequestParameters(collectorAgent);
-        try {
-            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postParams, "UTF-8");
-            method.setEntity(entity);
-        } catch (UnsupportedEncodingException e) {
-            // Should never happen
-        }
+        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(postParams, StandardCharsets.UTF_8);
+        method.setEntity(entity);
         return method;
     }
 
@@ -473,7 +475,7 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
         List<NameValuePair> queryParams = buildRequestParameters(collectorAgent);
         try {
             StringBuffer query = new StringBuffer();
-            query.append(URLEncodedUtils.format(queryParams, "UTF-8"));
+            query.append(URLEncodedUtils.format(queryParams, StandardCharsets.UTF_8));
             if (uri.getQuery() != null && !uri.getQuery().trim().isEmpty()) {
                 if (query.length() > 0) {
                     query.append("&");
@@ -482,7 +484,7 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
             }
             final URIBuilder ub = new URIBuilder(uri);
             if (query.length() > 0) {
-                final List<NameValuePair> params = URLEncodedUtils.parse(query.toString(), Charset.forName("UTF-8"));
+                final List<NameValuePair> params = URLEncodedUtils.parse(query.toString(), StandardCharsets.UTF_8);
                 if (!params.isEmpty()) {
                     ub.setParameters(params);
                 }
@@ -500,8 +502,7 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
         if (collectorAgent.getUriDef().getUrl().getParameters() == null) {
             return retval;
         }
-        List<Parameter> parameters = collectorAgent.getUriDef().getUrl().getParameters().getParameter();
-        for (Parameter p : parameters) {
+        for (final Parameter p : collectorAgent.getUriDef().getUrl().getParameters()) {
             retval.add(new BasicNameValuePair(p.getKey(), p.getValue()));
         }
         return retval;
@@ -518,11 +519,11 @@ public class HttpCollector extends AbstractRemoteServiceCollector {
         ub.setPort(collectorAgent.getPort());
         ub.setPath(substituteKeywords(substitutions, collectorAgent.getUriDef().getUrl().getPath(), "getURL"));
 
-        final String query = substituteKeywords(substitutions, collectorAgent.getUriDef().getUrl().getQuery(), "getQuery");
-        final List<NameValuePair> params = URLEncodedUtils.parse(query, Charset.forName("UTF-8"));
+        final String query = substituteKeywords(substitutions, collectorAgent.getUriDef().getUrl().getQuery().orElse(null), "getQuery");
+        final List<NameValuePair> params = URLEncodedUtils.parse(query, StandardCharsets.UTF_8);
         ub.setParameters(params);
 
-        ub.setFragment(substituteKeywords(substitutions, collectorAgent.getUriDef().getUrl().getFragment(), "getFragment"));
+        ub.setFragment(substituteKeywords(substitutions, collectorAgent.getUriDef().getUrl().getFragment().orElse(null), "getFragment"));
         return ub.build();
     }
 

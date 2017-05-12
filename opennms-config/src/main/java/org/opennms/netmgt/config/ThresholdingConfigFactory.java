@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -137,7 +138,7 @@ public final class ThresholdingConfigFactory {
     private void initGroupMap() {
         Map<String, Group> groupMap = new HashMap<String, Group>();
 
-        for (Group g : m_config.getGroupCollection()) {
+        for (Group g : m_config.getGroups()) {
             groupMap.put(g.getName(), g);
         }
         
@@ -167,7 +168,7 @@ public final class ThresholdingConfigFactory {
 
         for (String groupName : tcf.getGroupNames()) {
             Group g = tcf.getGroup(groupName);
-            for (org.opennms.netmgt.config.threshd.Threshold threshold :  g.getThresholdCollection()) {
+            for (org.opennms.netmgt.config.threshd.Threshold threshold :  g.getThresholds()) {
                 if (threshold.getDsName().length() > ConfigFileConstants.RRD_DS_MAX_SIZE) {
                     throw new IllegalStateException(
                         String.format("ds-name '%s' in group '%s' is greater than %d characters",
@@ -262,8 +263,8 @@ public final class ThresholdingConfigFactory {
     public Collection<Basethresholddef> getThresholds(String groupName) {
         Group group=getGroup(groupName);
         Collection<Basethresholddef> result=new ArrayList<Basethresholddef>();
-        result.addAll(group.getThresholdCollection());
-        result.addAll(group.getExpressionCollection());
+        result.addAll(group.getThresholds());
+        result.addAll(group.getExpressions());
         return result;
     }
     
@@ -288,7 +289,7 @@ public final class ThresholdingConfigFactory {
         if (xmlString != null) {
             File cfgFile = ConfigFileConstants.getFile(ConfigFileConstants.THRESHOLDING_CONF_FILE_NAME);
 
-            Writer fileWriter = new OutputStreamWriter(new FileOutputStream(cfgFile), "UTF-8");
+            Writer fileWriter = new OutputStreamWriter(new FileOutputStream(cfgFile), StandardCharsets.UTF_8);
             fileWriter.write(xmlString);
             fileWriter.flush();
             fileWriter.close();
