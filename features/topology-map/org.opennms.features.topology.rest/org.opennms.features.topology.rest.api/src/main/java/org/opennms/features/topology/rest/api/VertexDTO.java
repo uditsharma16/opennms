@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of OpenNMS(R).
  *
- * Copyright (C) 2016 The OpenNMS Group, Inc.
- * OpenNMS(R) is Copyright (C) 1999-2016 The OpenNMS Group, Inc.
+ * Copyright (C) 2017-2017 The OpenNMS Group, Inc.
+ * OpenNMS(R) is Copyright (C) 1999-2017 The OpenNMS Group, Inc.
  *
  * OpenNMS(R) is a registered trademark of The OpenNMS Group, Inc.
  *
@@ -26,24 +26,18 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package org.opennms.features.topology.api;
+package org.opennms.features.topology.rest.api;
 
-import java.util.List;
+import java.util.HashMap;
 
-import org.opennms.features.topology.api.topo.Criteria;
-import org.opennms.features.topology.api.topo.GraphProvider;
-import org.opennms.features.topology.api.topo.MetaTopologyProvider;
+public class VertexDTO {
+    private HashMap<String, Object> properties;
 
-public interface TopologyService {
+    public void setProperties(HashMap<String, Object> properties) {
+        this.properties = properties;
+    }
 
-    Graph getGraph(String metaTopologyId, String namespace, Criteria[] criteria, int semanticZoomLevel);
-
-    GraphProvider getGraphProvider(String metaTopologyId, String namespace);
-
-    // Determines preferred/default layout
-    LayoutAlgorithm getPreferredLayoutAlgorithm(String metaTopologyId, String namespace);
-
-    MetaTopologyProvider getMetaTopologyProvider(String metaTopologyId);
-
-    List<MetaTopologyProvider> getMetaTopologyProviders();
+    public HashMap<String, Object> getProperties() {
+        return properties;
+    }
 }

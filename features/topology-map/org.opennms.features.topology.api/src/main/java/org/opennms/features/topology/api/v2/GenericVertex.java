@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of OpenNMS(R).
  *
- * Copyright (C) 2016 The OpenNMS Group, Inc.
- * OpenNMS(R) is Copyright (C) 1999-2016 The OpenNMS Group, Inc.
+ * Copyright (C) 2012-2014 The OpenNMS Group, Inc.
+ * OpenNMS(R) is Copyright (C) 1999-2014 The OpenNMS Group, Inc.
  *
  * OpenNMS(R) is a registered trademark of The OpenNMS Group, Inc.
  *
@@ -26,24 +26,23 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package org.opennms.features.topology.api;
+package org.opennms.features.topology.api.v2;
 
-import java.util.List;
+public class GenericVertex extends AbstractElement {
 
-import org.opennms.features.topology.api.topo.Criteria;
-import org.opennms.features.topology.api.topo.GraphProvider;
-import org.opennms.features.topology.api.topo.MetaTopologyProvider;
+    public void setIconKey(String iconKey) {
+        setProperty(Properties.ICON_KEY, iconKey);
+    }
 
-public interface TopologyService {
+    public void setX(Integer xPos) {
+        setProperty(Properties.X, xPos);
+    }
 
-    Graph getGraph(String metaTopologyId, String namespace, Criteria[] criteria, int semanticZoomLevel);
+    public void setY(Integer yPos) {
+        setProperty(Properties.Y, yPos);
+    }
 
-    GraphProvider getGraphProvider(String metaTopologyId, String namespace);
-
-    // Determines preferred/default layout
-    LayoutAlgorithm getPreferredLayoutAlgorithm(String metaTopologyId, String namespace);
-
-    MetaTopologyProvider getMetaTopologyProvider(String metaTopologyId);
-
-    List<MetaTopologyProvider> getMetaTopologyProviders();
+    public void setNodeId(Integer nodeId) {
+        setProperty(Properties.NODE_ID, nodeId);
+    }
 }

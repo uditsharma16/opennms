@@ -666,6 +666,16 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.opennms.features.topology.rest</groupId>
+      <artifactId>org.opennms.features.topology.rest.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opennms.features.topology.rest</groupId>
+      <artifactId>org.opennms.features.topology.rest.proxy</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.opennms.features</groupId>
       <artifactId>org.opennms.features.rest-commons</artifactId>
       <version>${project.version}</version>

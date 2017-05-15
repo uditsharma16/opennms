@@ -106,8 +106,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
   </bean>
   
   <onmsgi:service interface="org.opennms.netmgt.dao.api.GraphDao" ref="graphDao"/>
-  
-  
+
 
   <!-- Admin applications bean -->
   <bean id="adminApplicationService" class="org.opennms.web.svclayer.support.DefaultAdminApplicationService">
@@ -269,4 +268,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
   </bean>
   <bean id="foreignSourceAndRequisitionAccessService" class="org.opennms.web.svclayer.support.DefaultRequisitionAccessService"></bean>
   <bean id="snmpConfigAccessService" class="org.opennms.netmgt.config.SnmpConfigAccessService" />
+
+  <bean id="serviceLocator" class="org.opennms.web.utils.ServiceLocator"></bean>
 </beans>

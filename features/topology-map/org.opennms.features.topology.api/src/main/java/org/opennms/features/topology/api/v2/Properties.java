@@ -26,24 +26,30 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package org.opennms.features.topology.api;
+package org.opennms.features.topology.api.v2;
 
-import java.util.List;
-
-import org.opennms.features.topology.api.topo.Criteria;
-import org.opennms.features.topology.api.topo.GraphProvider;
-import org.opennms.features.topology.api.topo.MetaTopologyProvider;
-
-public interface TopologyService {
-
-    Graph getGraph(String metaTopologyId, String namespace, Criteria[] criteria, int semanticZoomLevel);
-
-    GraphProvider getGraphProvider(String metaTopologyId, String namespace);
-
-    // Determines preferred/default layout
-    LayoutAlgorithm getPreferredLayoutAlgorithm(String metaTopologyId, String namespace);
-
-    MetaTopologyProvider getMetaTopologyProvider(String metaTopologyId);
-
-    List<MetaTopologyProvider> getMetaTopologyProviders();
+public interface Properties {
+    String ID = "id";
+    String DESCRIPTION = "description";
+    String NAMESPACE = "namespace";
+    String ICON_KEY = "iconKey";
+    String IP_ADDRESS = "ipAddr";
+    String LABEL = "label";
+    String LOCKED = "locked";
+    String NODE_ID = "nodeID";
+    String FOREIGN_SOURCE = "foreignSource";
+    String FOREIGN_ID = "foreignID";
+    String SELECTED = "selected";
+    String STYLE_NAME = "styleName";
+    String TOOLTIP_TEXT = "tooltipText";
+    String X = "x";
+    String Y = "y";
+    String PREFERRED_LAYOUT = "preferred-layout";
+    String FOCUS_STRATEGY = "focus-strategy";
+    String FOCUS_IDS = "focus-ids";
+    String SEMANTIC_ZOOM_LEVEL = "semantic-zoom-level";
+    String VERTEX_STATUS_PROVIDER = "vertex-status-provider";
+    String LEVEL = "level";
+    String EDGE_PATH_OFFSET = "edge-path-offset";
+    String BREADCRUMB_STRATEGY = "breadcrumb-strategy";
 }

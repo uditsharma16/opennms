@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of OpenNMS(R).
  *
- * Copyright (C) 2016 The OpenNMS Group, Inc.
- * OpenNMS(R) is Copyright (C) 1999-2016 The OpenNMS Group, Inc.
+ * Copyright (C) 2017-2017 The OpenNMS Group, Inc.
+ * OpenNMS(R) is Copyright (C) 1999-2017 The OpenNMS Group, Inc.
  *
  * OpenNMS(R) is a registered trademark of The OpenNMS Group, Inc.
  *
@@ -26,24 +26,32 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package org.opennms.features.topology.api;
+package org.opennms.features.topology.api.v2.converter;
 
-import java.util.List;
+import org.opennms.features.topology.api.topo.Vertex;
+import org.opennms.features.topology.api.v2.GenericVertex;
 
-import org.opennms.features.topology.api.topo.Criteria;
-import org.opennms.features.topology.api.topo.GraphProvider;
-import org.opennms.features.topology.api.topo.MetaTopologyProvider;
+public class SimpleVertexConverter<V extends Vertex> implements VertexConverter<V> {
 
-public interface TopologyService {
+    @Override
+    public GenericVertex convert(V input) {
+        final GenericVertex output = new GenericVertex();
+        output.setId(input.getId());
+        output.setNamespace(input.getNamespace());
+        output.setIconKey(input.getIconKey());
+        output.setLabel(input.getLabel());
+        output.setX(input.getX());
+        output.setY(input.getY());
+        output.setTooltip(input.getTooltipText());
+        output.setNodeId(input.getNodeID());
 
-    Graph getGraph(String metaTopologyId, String namespace, Criteria[] criteria, int semanticZoomLevel);
+        applyCustomConversion(input, output);
 
-    GraphProvider getGraphProvider(String metaTopologyId, String namespace);
+        return output;
 
-    // Determines preferred/default layout
-    LayoutAlgorithm getPreferredLayoutAlgorithm(String metaTopologyId, String namespace);
+    }
 
-    MetaTopologyProvider getMetaTopologyProvider(String metaTopologyId);
-
-    List<MetaTopologyProvider> getMetaTopologyProviders();
+    public void applyCustomConversion(V input, GenericVertex output) {
+        // overwrite if custom behaviour is required
+    }
 }

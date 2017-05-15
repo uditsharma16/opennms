@@ -42,13 +42,14 @@ import org.opennms.features.topology.api.IconRepository;
 import org.opennms.features.topology.api.topo.EdgeStatusProvider;
 import org.opennms.features.topology.api.topo.MetaTopologyProvider;
 import org.opennms.features.topology.api.topo.SearchProvider;
+import org.opennms.features.topology.api.topo.StatusProvider;
+import org.opennms.features.topology.api.v2.converter.GraphConverter;
 import org.opennms.features.topology.plugins.topo.graphml.GraphMLEdgeStatusProvider;
 import org.opennms.features.topology.plugins.topo.graphml.GraphMLMetaTopologyProvider;
 import org.opennms.features.topology.plugins.topo.graphml.GraphMLSearchProvider;
 import org.opennms.features.topology.plugins.topo.graphml.GraphMLTopologyProvider;
-import org.opennms.features.topology.plugins.topo.graphml.internal.scripting.OSGiScriptEngineManager;
-import org.opennms.features.topology.api.topo.StatusProvider;
 import org.opennms.features.topology.plugins.topo.graphml.GraphMLVertexStatusProvider;
+import org.opennms.features.topology.plugins.topo.graphml.internal.scripting.OSGiScriptEngineManager;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
@@ -127,6 +128,9 @@ public class GraphMLMetaTopologyFactory implements ManagedServiceFactory {
 							(nodeIds) -> m_serviceAccessor.getAlarmDao().getNodeAlarmSummariesIncludeAcknowledgedOnes(nodeIds));
 					registerService(pid, StatusProvider.class, statusProvider);
 				}
+
+				// Converter
+				registerService(pid, GraphConverter.class, new GraphMLGraphConverter(rawTopologyProvider));
 			});
 		} else {
 			LOG.warn("Service with pid '{}' updated. Updating is not supported. Ignoring...");

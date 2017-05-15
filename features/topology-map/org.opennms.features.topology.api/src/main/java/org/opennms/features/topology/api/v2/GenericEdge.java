@@ -26,24 +26,47 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package org.opennms.features.topology.api;
+package org.opennms.features.topology.api.v2;
 
-import java.util.List;
+import java.util.Objects;
 
-import org.opennms.features.topology.api.topo.Criteria;
-import org.opennms.features.topology.api.topo.GraphProvider;
-import org.opennms.features.topology.api.topo.MetaTopologyProvider;
+public class GenericEdge extends AbstractElement {
 
-public interface TopologyService {
+    private GenericVertex target;
+    private GenericVertex source;
 
-    Graph getGraph(String metaTopologyId, String namespace, Criteria[] criteria, int semanticZoomLevel);
+    public GenericVertex getTarget() {
+        return target;
+    }
 
-    GraphProvider getGraphProvider(String metaTopologyId, String namespace);
+    public GenericVertex getSource() {
+        return source;
+    }
 
-    // Determines preferred/default layout
-    LayoutAlgorithm getPreferredLayoutAlgorithm(String metaTopologyId, String namespace);
+    public void setTarget(GenericVertex target) {
+        this.target = Objects.requireNonNull(target);
+    }
 
-    MetaTopologyProvider getMetaTopologyProvider(String metaTopologyId);
+    public void setSource(GenericVertex source) {
+        this.source = Objects.requireNonNull(source);
+    }
 
-    List<MetaTopologyProvider> getMetaTopologyProviders();
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), target, source);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean equals = super.equals(obj);
+        if (equals) {
+            if (obj instanceof GenericEdge) {
+                GenericEdge other = (GenericEdge) obj;
+                equals = Objects.equals(target, other.target)
+                        && Objects.equals(source, other.source);
+                return equals;
+            }
+        }
+        return false;
+    }
 }
