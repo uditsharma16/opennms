@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="onms.ui">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="apple-itunes-app" content="app-id=968875097">
+
+    <!-- global style sheets -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/opennms-theme.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="lib/font-awesome/css/font-awesome.css" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="lib/ionicons/css/ionicons.css"/>
+
+    <!-- global 3rd party dependencies -->
+    <!--<script type="text/javascript" src="js/global.js"></script>-->
+    <script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    <!-- global dependencies -->
+    <script type="text/javascript" src="lib/angular/angular.js"></script>
+    <script type="text/javascript" src="lib/angular-resource/angular-resource.js"></script>
+    <script type="text/javascript" src="lib/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="lib/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
+    <!-- general application -->
+    <script type="text/javascript" src="app/app.module.js"></script>
+
+    <!-- Requisition -->
+
+    <!-- Add dependencies for new modules/components below -->
+
+</head>
+
+<body ng-controller="MainController" class="fixed-nav">
+<div ng-include="'app/components/core/header.html'" ng-hide="quiet"></div>
+<div ng-view id="content" class="container-fluid"></div>
+<div ng-include="'app/components/core/footer.html'" ng-hide="quiet"></div>
+</body>
+</html>
