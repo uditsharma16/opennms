@@ -166,7 +166,7 @@ final String baseHref = Util.calculateUrlBase( request );
 <%= "<body>" %>
 
 <c:choose>
-	<c:when test="${param.quiet == 'true'}">
+	<c:when test="${param.quiet == 'true' || param.quiet == null}">
 	<!-- No visual header is being displayed -->
 	</c:when>
 

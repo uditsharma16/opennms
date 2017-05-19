@@ -38,6 +38,7 @@
 
 <jsp:include page="/includes/bootstrap.jsp" flush="false">
   <jsp:param name="title" value="Access denied" />
+  <jsp:param name="quiet" value="false" />
 </jsp:include>
 
 <h2>Access denied</h2>

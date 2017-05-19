@@ -34,6 +34,7 @@
 <jsp:include page="/includes/bootstrap.jsp" flush="false">
   <jsp:param name="title" value="Log out" />
   <jsp:param name="nonavbar" value="true" />
+  <jsp:param name="quiet" value="false" />
 </jsp:include>
 
 <div class="row">

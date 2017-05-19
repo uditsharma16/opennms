@@ -45,7 +45,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <c:choose>
-  <c:when test="${param.quiet == 'true'}">
+  <c:when test="${param.quiet == 'true' || param.quiet == null}">
     <!-- Not displaying footnote1 -->
   </c:when>
 

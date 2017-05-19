@@ -34,6 +34,7 @@
 <jsp:include page="/includes/bootstrap.jsp" flush="false">
   <jsp:param name="title" value="Login" />
   <jsp:param name="nonavbar" value="true" />
+  <jsp:param name="quiet" value="false" />
 </jsp:include>
 
 <jsp:include page="/includes/mobile-app-promo.jsp" flush="false" />

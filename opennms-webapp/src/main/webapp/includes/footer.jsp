@@ -69,7 +69,7 @@
 <%= "</div>" %><!-- id="content" -->
 
 <c:choose>
-  <c:when test="${param.quiet == 'true'}">
+  <c:when test="${param.quiet == 'true' || param.quiet == null}">
     <!-- Not displaying footer -->
   </c:when>
 

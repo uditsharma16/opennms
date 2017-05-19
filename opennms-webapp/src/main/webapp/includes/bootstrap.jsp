@@ -175,14 +175,14 @@
 </c:if>
 
 <%-- Don't add any padding when the visual heading is not being displayed --%>
-<c:if test="${param.quiet != 'true'}">
+<c:if test="${param.quiet == 'true'}">
   class="fixed-nav"
 </c:if>
 <%= ">" %>
 
 <!-- Bootstrap header -->
 <c:choose>
-  <c:when test="${param.quiet == 'true'}">
+  <c:when test="${param.quiet == 'true' || param.quiet == null}">
     <!-- No visual header is being displayed -->
   </c:when>
   <c:otherwise>
