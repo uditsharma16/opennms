@@ -53,6 +53,7 @@ import org.opennms.core.criteria.restrictions.AllRestriction;
 import org.opennms.core.criteria.restrictions.AnyRestriction;
 import org.opennms.core.criteria.restrictions.BaseRestrictionVisitor;
 import org.opennms.core.criteria.restrictions.BetweenRestriction;
+import org.opennms.core.criteria.restrictions.EqPropertyRestriction;
 import org.opennms.core.criteria.restrictions.EqRestriction;
 import org.opennms.core.criteria.restrictions.GeRestriction;
 import org.opennms.core.criteria.restrictions.GtRestriction;
@@ -177,9 +178,13 @@ public class HibernateCriteriaConverter implements CriteriaConverter<DetachedCri
         }
 
         @Override
-        public void visitClass(final Class<?> clazz) {
+        public void visitClassAndRootAlias(final Class<?> clazz, final String rootAlias) {
             m_class = clazz;
-            m_criteria = DetachedCriteria.forClass(clazz);
+            if (rootAlias == null) {
+                m_criteria = DetachedCriteria.forClass(clazz);
+            } else {
+                m_criteria = DetachedCriteria.forClass(clazz, rootAlias);
+            }
         }
 
         @Override
@@ -340,6 +345,11 @@ public class HibernateCriteriaConverter implements CriteriaConverter<DetachedCri
         @Override
         public void visitEq(final EqRestriction restriction) {
             m_criterions.add(org.hibernate.criterion.Restrictions.eq(restriction.getAttribute(), restriction.getValue()));
+        }
+
+        @Override
+        public void visitEqProperty(final EqPropertyRestriction restriction) {
+            m_criterions.add(org.hibernate.criterion.Restrictions.eqProperty(restriction.getAttribute(), restriction.getValue().toString()));
         }
 
         @Override
