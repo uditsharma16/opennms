@@ -90,9 +90,9 @@ public class CustomReportController extends AbstractController implements Initia
 
         ModelAndView modelAndView = new ModelAndView("KSC/customReport");
 
-        modelAndView.addObject("showTimeSpan", report.getShowTimespanButton());
-        modelAndView.addObject("showGraphType", report.getShowGraphtypeButton());
-        modelAndView.addObject("graphsPerLine", report.getGraphsPerLine());
+        modelAndView.addObject("showTimeSpan", report.getShowTimespanButton().orElse(null));
+        modelAndView.addObject("showGraphType", report.getShowGraphtypeButton().orElse(null));
+        modelAndView.addObject("graphsPerLine", report.getGraphsPerLine().orElse(0));
         
         modelAndView.addObject("title", report.getTitle());
         modelAndView.addObject("resultSets", resultSets);

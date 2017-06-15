@@ -102,7 +102,7 @@ public class ImportSchedulerIT implements InitializingBean {
         RequisitionDef def = m_dao.getDefs().get(0);
         
         JobDetail detail = new JobDetailImpl("test", ImportScheduler.JOB_GROUP, ImportJob.class, false, false);
-        detail.getJobDataMap().put(ImportJob.URL, def.getImportUrlResource());
+        detail.getJobDataMap().put(ImportJob.URL, def.getImportUrlResource().orElse(null));
         detail.getJobDataMap().put(ImportJob.RESCAN_EXISTING, def.getRescanExisting());
 
         

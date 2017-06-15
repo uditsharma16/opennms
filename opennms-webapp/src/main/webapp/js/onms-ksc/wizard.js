@@ -195,7 +195,11 @@ angular.module('onms-ksc-wizard', [
   };
 
   $scope.selectResource = function(resource) {
-    $window.location.href = "KSC/customView.htm?type=node&report=" + resource.name;
+    if (resource.name.indexOf(':') > 0) {
+      $window.location.href = "KSC/customView.htm?type=nodeSource&report=" + resource.name;
+    } else {
+      $window.location.href = "KSC/customView.htm?type=node&report=" + resource.name;
+    }
   };
 
   $scope.updateResources = function() {

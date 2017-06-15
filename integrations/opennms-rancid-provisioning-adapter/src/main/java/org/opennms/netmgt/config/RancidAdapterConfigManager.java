@@ -437,17 +437,14 @@ public abstract class RancidAdapterConfigManager implements RancidAdapterConfig 
                 for (Mapping map : mappings()) {
                     LOG.debug("getType: parsing map with SysoidMaSk: {}, SysdescrMatch: {}",
                                     map.getSysoidMask(),
-                                    map.getSysdescrMatch());
+                                    map.getSysdescrMatch().orElse(null));
                     if (sysoid.startsWith(map.getSysoidMask())) {
-                        if (map.getSysdescrMatch().isPresent()
-                                && sysdescr.matches(map.getSysdescrMatch().get())) {
-                            LOG.debug("getType: matched type: {}",
-                                            map.getType());
+                        if (map.getSysdescrMatch().isPresent() && sysdescr.matches(map.getSysdescrMatch().get())) {
+                            LOG.debug("getType: matched type: {}", map.getType());
                             return map.getType();
                         }
-                        if (map.getSysdescrMatch() == null && notMatched) {
-                            LOG.debug("getType: null sysdescrmatch: first match: type: {} "
-                                                    , map.getType());
+                        if (!map.getSysdescrMatch().isPresent() && notMatched) {
+                            LOG.debug("getType: null sysdescrmatch: first match: type: {} ", map.getType());
                             type = map.getType();
                             notMatched = false;
                         }
@@ -507,7 +504,7 @@ public abstract class RancidAdapterConfigManager implements RancidAdapterConfig 
 
 
     private boolean hasPolicies() {
-        return (getConfiguration().getPolicies() != null);
+        return (getConfiguration().getPolicies().isPresent());
     }
  
     private boolean hasPolicyManage(final String ipaddress) {

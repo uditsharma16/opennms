@@ -169,7 +169,7 @@ public abstract class ThreshdConfigManager {
                     m_pkgIpMap.put(pkg, ipList);
                 }
             } catch (Throwable t) {
-                LOG.error("createPackageIpMap: failed to map package: {} to an IP List with filter \"{}\"", pkg.getName(), pkg.getFilter().getContent(), t);
+                LOG.error("createPackageIpMap: failed to map package: {} to an IP List with filter \"{}\"", pkg.getName(), pkg.getFilter().getContent().orElse(null), t);
             }
         }
     }

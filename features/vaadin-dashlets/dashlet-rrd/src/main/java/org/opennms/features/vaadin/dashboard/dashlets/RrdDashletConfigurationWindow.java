@@ -497,7 +497,7 @@ public class RrdDashletConfigurationWindow extends DashletConfigurationWindow {
     private void importKscReport(int reportId) {
         Report report = kscPerformanceReportFactory.getReportByIndex(reportId);
 
-        int columns = report.getGraphsPerLine().orElse(1);
+        int columns = Math.max(1, report.getGraphsPerLine().orElse(1));
 
         int rows = report.getGraphs().size() / columns;
 

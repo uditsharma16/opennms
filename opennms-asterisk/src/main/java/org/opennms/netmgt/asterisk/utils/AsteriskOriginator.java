@@ -181,7 +181,7 @@ public class AsteriskOriginator {
         m_legBPriority = Integer.parseInt(legBPriorityStr);
         m_legBAppPattern = PropertiesUtils.getProperty(m_amiProps, "org.opennms.asterisk.originate.legbapp", null);
         m_legBAppDataPattern = PropertiesUtils.getProperty(m_amiProps, "org.opennms.asterisk.originate.legbappdata", null);
-        m_legBIsApp = (m_legBAppPattern != null && ! "".equals(m_legBAppPattern));
+        m_legBIsApp = (m_legBAppPattern != null && ! "".equals(m_legBAppPattern.trim()));
     }
 
     /**

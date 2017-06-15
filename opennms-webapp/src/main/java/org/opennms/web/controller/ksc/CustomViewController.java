@@ -270,8 +270,8 @@ public class CustomViewController extends AbstractController implements Initiali
         
         modelAndView.addObject("showCustomizeButton", ( request.isUserInRole( Authentication.ROLE_ADMIN ) || !request.isUserInRole(Authentication.ROLE_READONLY) ) && (request.getRemoteUser() != null));
 
-        if (report.getGraphsPerLine() != null && report.getGraphsPerLine().get() > 0) {
-            modelAndView.addObject("graphsPerLine", report.getGraphsPerLine());
+        if (report.getGraphsPerLine().orElse(0) > 0) {
+            modelAndView.addObject("graphsPerLine", report.getGraphsPerLine().get());
         } else {
             modelAndView.addObject("graphsPerLine", getDefaultGraphsPerLine());
         }
@@ -286,12 +286,12 @@ public class CustomViewController extends AbstractController implements Initiali
             try {
                 OnmsResource r = getKscReportService().getResourceFromGraph(graph);
                 if (r == null) {
-                    LOG.error("Removing graph '{}' in KSC report '{}' because the resource it refers to could not be found. Perhaps resource '{}' (or its ancestor) referenced by this graph no longer exists?", graph.getTitle(), report.getTitle(), graph.getResourceId());
+                    LOG.error("Removing graph '{}' in KSC report '{}' because the resource it refers to could not be found. Perhaps resource '{}' (or its ancestor) referenced by this graph no longer exists?", graph.getTitle(), report.getTitle(), graph.getResourceId().orElse(null));
                     itr.remove();
                     return true;
                 }
             } catch (ObjectRetrievalFailureException orfe) {
-                LOG.error("Removing graph '{}' in KSC report '{}' because the resource it refers to could not be found. Perhaps resource '{}' (or its ancestor) referenced by this graph no longer exists?", graph.getTitle(), report.getTitle(), graph.getResourceId());
+                LOG.error("Removing graph '{}' in KSC report '{}' because the resource it refers to could not be found. Perhaps resource '{}' (or its ancestor) referenced by this graph no longer exists?", graph.getTitle(), report.getTitle(), graph.getResourceId().orElse(null));
                 itr.remove();
                 return true;
             } catch (Throwable e) {

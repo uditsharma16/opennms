@@ -85,7 +85,7 @@ public class DefaultProvisiondConfigurationDao extends AbstractJaxbConfigDao<Pro
         final List<RequisitionDef> defs = getDefs();
         if (defs != null) {
             for (RequisitionDef def : defs) {
-                if (def.getImportName().equals(defName)) {
+                if (defName.equals(def.getImportName().orElse(null))) {
                     return def;
                 }
             }

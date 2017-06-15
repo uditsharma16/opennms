@@ -328,7 +328,7 @@ public class ThresholdingSet {
         final FilterOperator operator = thresholdEntity.getThresholdConfig().getBasethresholddef().getFilterOperator();
         boolean andResult = true;
         for (ResourceFilter f : filters) {
-            LOG.debug("passedThresholdFilters: filter #{}: field={}, regex='{}'", count, f.getField(), f.getContent());
+            LOG.debug("passedThresholdFilters: filter #{}: field={}, regex='{}'", count, f.getField(), f.getContent().orElse(null));
             count++;
             // Read Resource Attribute and apply filter rules if attribute is not null
             String attr = resource.getFieldValue(f.getField());
@@ -347,7 +347,7 @@ public class ThresholdingSet {
                             return false;
                     }
                 } catch (PatternSyntaxException e) {
-                    LOG.warn("passedThresholdFilters: the regular expression {} is invalid: {}", f.getContent(), e.getMessage(), e);
+                    LOG.warn("passedThresholdFilters: the regular expression {} is invalid: {}", f.getContent().orElse(null), e.getMessage(), e);
                     return false;
                 }
             } else {

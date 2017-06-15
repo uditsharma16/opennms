@@ -278,7 +278,7 @@ public abstract class NotificationManager {
              * Check if event severity matches pattern in notification
              */
 
-            LOG.trace("Checking event severity: {} against notification severity: {}", curNotif.getEventSeverity(), event.getSeverity());
+            LOG.trace("Checking event severity: {} against notification severity: {}", curNotif.getEventSeverity().orElse(null), event.getSeverity());
             // parameter is optional, return true if not set
             if (!curNotif.getEventSeverity().isPresent()) {
                 // Skip matching on severity
@@ -286,7 +286,7 @@ public abstract class NotificationManager {
                 // Severities match
             } else {
 
-                LOG.debug("Event severity: {} did not match notification severity: {}", curNotif.getEventSeverity(), event.getSeverity());
+                LOG.debug("Event severity: {} did not match notification severity: {}", curNotif.getEventSeverity().orElse(null), event.getSeverity());
                 continue;
             }
 
