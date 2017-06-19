@@ -93,7 +93,10 @@ public class UserRestService extends OnmsRestService {
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_ATOM_XML})
     @Path("{username}")
-    public OnmsUser getUser(@Context final SecurityContext securityContext, @PathParam("username") final String username) {
+    public OnmsUser getUser(@Context final SecurityContext securityContext, @PathParam("username") String username) {
+        if ("whoami".equals(username)) {
+            username = securityContext.getUserPrincipal().getName();
+        }
         final OnmsUser user = getOnmsUser(username);
         return filterUserPassword(securityContext, user);
     }

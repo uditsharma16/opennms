@@ -3,6 +3,7 @@
     'use strict';
 
     angular.module('onms.ui', [
+        'onms.ui.header',
         'ngRoute',
         'ui.bootstrap',
     ])
@@ -21,7 +22,6 @@
                 }
             }
         }])
-
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
                 .when('/', {
@@ -33,25 +33,20 @@
                 .when('/legacy/:type', {
                     templateUrl: 'app/components/legacy/legacy.html',
                     controller: 'LegacyController'
-                })
-                .otherwise({
-                    redirectTo: '/legacy/home'
                 });
+                // .otherwise({
+                //     redirectTo: '/legacy/home'
+                // });
         }])
         .controller("MainController", ['$scope', function ($scope) {
-            $scope.currentDate = new Date();
-            $scope.remoteUser = 'admin';
-            $scope.noticeStatus = 'Off';
-            $scope.quiet = false;
+
 
         }])
-        .controller('LegacyController', ['$scope', '$routeParams', '$log', function ($scope, $routeParams, $log) {
-            // Custom mapping
-            var legacyMapping = {
-                'home': 'home.jsp',
-                'dashboard': 'dashboard.jsp'
-            };
-            $scope.legacyUrl = legacyMapping[$routeParams.type];
+        .controller('LegacyController', ['$scope', '$routeParams', '$log', 'NavigationMappingService', function ($scope, $routeParams, $log, NavigationMappingService) {
+            var type = NavigationMappingService.getMappingByRoute($routeParams.type);
+            if (type !== $routeParams.type) {
+                $scope.legacyUrl = type;
+            }
             if (!$scope.legacyUrl) { // if not defined, simply use the parameter itself
                 $scope.legacyUrl = $routeParams.type;
             }

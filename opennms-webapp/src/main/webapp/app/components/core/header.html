@@ -12,31 +12,58 @@
         </a>
     </div>
 
-    <div id="headerinfo" style="display: none" class="nav navbar-nav navbar-right navbar-info">
+    <div ng-if="user" id="headerinfo" style="display: none" class="nav navbar-nav navbar-right navbar-info">
         {{currentDate | date:'MMM d, y HH:mm z' }}
         <span class="fa-stack" style="text-shadow:none">
 
-        <!-- TODO MVR migrate correctly, just ripped it out for now to get something to work -->
-        <!-- Bell with red slash over it -->
-        <i class="fa fa-bell fa-stack-1x"></i>
-        <i class="fa fa-ban fa-stack-2x text-danger"></i>
+        <!-- Gray circle with bell inside -->
+        <i ng-if="noticeStatus == 'Unknown'" class="fa fa-circle fa-stack-2x text-muted"></i>
+        <i ng-if="noticeStatus == 'Unknown'" class="fa fa-circle-thin fa-stack-2x"></i>
+        <i ng-if="noticeStatus == 'Unknown'" class="fa fa-bell fa-stack-1x"></i>
+
+            <!-- Bell with red slash over it -->
+        <i ng-if="noticeStatus == 'Off'" class="fa fa-bell fa-stack-1x"></i>
+        <i ng-if="noticeStatus == 'Off'" class="fa fa-ban fa-stack-2x text-danger"></i>
+
+            <!-- Green circle with bell inside -->
+        <i ng-if="noticeStatus == 'On'" class="fa fa-circle fa-stack-2x text-success"></i>
+        <i ng-if="noticeStatus == 'On'" class="fa fa-circle-thin fa-stack-2x"></i>
+        <i ng-if="noticeStatus == 'On'" class="fa fa-bell fa-stack-1x"></i>
         </span>
     </div>
 
-    <div style="margin-right: 15px" id="navbar" class="navbar-collapse collapse">
+    <div ng-if="user" style="margin-right: 15px" id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
+            <!-- actual nav items -->
+            <li ng-class="{dropdown: item.items.length > 0}" ng-repeat="item in menu.items">
+                <!-- no children -->
+                <a ng-if="item.items.length == 0 && item.url" name="nav-{{item.name}}-top" href="{{item.url|legacyUrl}}">{{item.name}}</a>
+                <a ng-if="item.items.length == 0 && !item.url" name="nav-{{item.name}}-top" href="#">{{item.name}}</a>
+
+                <!-- children -->
+                <a ng-if="item.items.length > 0 && item.url && item.url != '#'" href="{{item.url|legacyUrl}}" name="nav-{{item.name}}-top" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-expanded="false">{{item.name}} <span class="caret"></span></a>
+                <a ng-if="item.items.length > 0 && !item.url || item.url == '#'" href="#" name="nav-{{item.name}}-top" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{item.name}} <span class="caret"></span></a>
+                <ul ng-if="item.items.length > 0" class="dropdown-menu" role="menu">
+                    <li ng-repeat="subItem in item.items">
+                        <a ng-if="subItem.url" name="nav-{{item.name}}-{{subItem.name}}" href="{{subItem.url|legacyUrl}}">{{subItem.name}}</a>
+                        <a ng-if="!subItem.url" name="nav-{{item.name}}-{{subItem.name}}" href="#">{{subItem.name}}</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- user dropdown -->
             <li class="dropdown">
-                <a name="nav-admin-top" href="account/selfService/index.jsp" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-expanded="false">
+                <a name="nav-admin-top" href="#legacy/account_selfservice" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-expanded="false">
                     <span class="glyphicon glyphicon-user"></span>
-                    {{remoteUser}}
+                    {{user.name}}
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu" role="menu">
-                    <li><a name="nav-admin-notice-status" href="#" style="white-space: nowrap">Notices: <b id="notification${noticeStatus}">${noticeStatus}</b></a></li>
-                        <li ng-show="isAdmin"><a name="nav-admin-admin" href="admin/index.jsp" style="white-space: nowrap">Configure OpenNMS</a></li>
-                        <li ng-show="isAdmin || isProvision"><a name="nav-admin-quick-add" href="admin/ng-requisitions/quick-add-node.jsp#/" style="white-space: nowrap">Quick-Add Node</a></li>
-                    <li><a name="nav-admin-support" href="support/index.htm">Help/Support</a></li>
-                    <li><a name="nav-admin-self-service" href="account/selfService/index.jsp">Change Password</a>
+                    <li><span name="nav-admin-notice-status" style="white-space: nowrap">Notices: <b id="notification{{noticeStatus}}">{{noticeStatus}}</b></span></li>
+                    <li ng-show="user.isAdmin()"><a name="nav-admin-admin" href="admin/index.jsp|legacyUrl" style="white-space: nowrap">Configure OpenNMS</a></li>
+                    <li ng-show="user.isAdmin() || user.isProvision()"><a name="nav-admin-quick-add" href="admin/ng-requisitions/quick-add-node.jsp#/" style="white-space: nowrap">Quick-Add Node</a></li>
+                    <li><a name="nav-admin-support" href="#legacy/support">Help/Support</a></li>
+                    <li><a name="nav-admin-self-service" href="#legacy/account_selfservice">Change Password</a>
                     <li><a name="nav-admin-logout" href="j_spring_security_logout" style="white-space: nowrap">Log Out</a></li>
                 </ul>
             </li>

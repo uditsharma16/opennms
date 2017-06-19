@@ -30,6 +30,7 @@
     <!-- general application -->
     <link rel="stylesheet" type="text/css" href="app/css/custom.css" media="screen" />
     <script type="text/javascript" src="app/app.module.js"></script>
+    <script type="text/javascript" src="app/core/header.module.js"></script>
 
     <!-- Requisition -->
 
@@ -38,7 +39,7 @@
 </head>
 
 <body ng-controller="MainController" class="fixed-nav">
-<div ng-include="'app/components/core/header.html'" ng-hide="quiet"></div>
+<div ng-include="'app/components/core/header.html'" ng-hide="quiet" ng-controller="HeaderController"></div>
 <div ng-view id="content" class="container-fluid"></div>
 <div ng-include="'app/components/core/footer.html'" ng-hide="quiet"></div>
 </body>
