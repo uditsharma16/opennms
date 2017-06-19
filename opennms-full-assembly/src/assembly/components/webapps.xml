@@ -32,11 +32,6 @@
     <!-- OpenNMS webapp -->
     <dependencySet>
       <unpack>true</unpack>
-      <unpackOptions>
-        <excludes>
-          <exclude>index.html</exclude>
-        </excludes>
-      </unpackOptions>
       <useProjectArtifact>false</useProjectArtifact>
       <useStrictFiltering>true</useStrictFiltering>
       <useTransitiveDependencies>false</useTransitiveDependencies>

@@ -35,7 +35,7 @@
                     controller: 'LegacyController'
                 })
                 .otherwise({
-                    redirectTo: '/'
+                    redirectTo: '/legacy/home'
                 });
         }])
         .controller("MainController", ['$scope', function ($scope) {
@@ -46,15 +46,15 @@
 
         }])
         .controller('LegacyController', ['$scope', '$routeParams', '$log', function ($scope, $routeParams, $log) {
+            // Custom mapping
             var legacyMapping = {
                 'home': 'home.jsp',
-                'node' : '',
-                'alarm' : '',
-                'event' : ''
+                'dashboard': 'dashboard.jsp'
             };
-
             $scope.legacyUrl = legacyMapping[$routeParams.type];
-            console.log($scope.legacyUrl);
+            if (!$scope.legacyUrl) { // if not defined, simply use the parameter itself
+                $scope.legacyUrl = $routeParams.type;
+            }
         }]);
 
 }());
