@@ -11,15 +11,28 @@
         .directive('iframeSetDimensionsOnload', [function() {
             return {
                 restrict: 'A',
-                link: function(scope, element, attrs){
-                    element.on('load', function(){
-                        /* Set the dimensions here,
-                         I think that you were trying to do something like this: */
-                        var iFrameHeight = element[0].contentWindow.document.body.scrollHeight + 'px';
+                link: function(scope, element, attrs) {
+                    var setMaxHeight = function(document) {
+                        var iFrameHeight = document.body.scrollHeight + 'px';
                         var iFrameWidth = '100%';
                         element.css('width', iFrameWidth);
                         element.css('height', iFrameHeight);
-                    })
+                    };
+
+                    var recursivelySetMaxHeight = function(document) {
+                        setTimeout(function() {
+                            var moreElements = document.getElementsByTagName("iframe").length >= 1;
+                            if (moreElements === true) {
+                                recursivelySetMaxHeight(document.getElementsByTagName("iframe")[0]);
+                            }
+                            setMaxHeight(document);
+                        }, 500)
+                    };
+
+                    element.on('load', function() {
+                        var currentDocument = element[0].currentWindow.document;
+                        recursivelySetMaxHeight(currentDocument);
+                    });
                 }
             }
         }])
