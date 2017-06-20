@@ -14,7 +14,7 @@ describe('Requisitions Experiments', function() {
 
     expect(element(by.linkText('Log Out'))).not.toBe(null);
 
-    browser.get('http://admin:admin@localhost:8980/opennms/admin/ng-requisitions/app/index.jsp');
+    browser.get('http://admin:admin@localhost:8980/opennms/index.html#admin/requisitions');
 
   });
 });

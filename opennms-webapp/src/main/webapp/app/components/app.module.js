@@ -51,15 +51,6 @@
             if (!$scope.legacyUrl) { // if not defined, simply use the parameter itself
                 $scope.legacyUrl = $routeParams.type;
             }
-        }])
-        .run(['$rootScope', function($rootScope) {
-            $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-                if (current.$$route.title) {
-                    $rootScope.title = current.$$route.title + " | OpenNMS Web Console";
-                } else {
-                    $rootScope.title = "OpenNMS Web Console";
-                }
-            })
         }]);
 
 }());

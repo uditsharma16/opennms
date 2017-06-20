@@ -22,9 +22,9 @@
                 console.log($scope.menu);
             });
         }])
-        .filter('legacyUrl', ['NavigationMappingService', function(NavigationMappingService) {
+        .filter('legacyUrl', ['LegacyNavigationMappingService', function(LegacyNavigationMappingService) {
             return function(input) {
-                var mapped = NavigationMappingService.getMappingByLegacyUrl(input);
+                var mapped = LegacyNavigationMappingService.getMappingByLegacyUrl(input);
                 return "#legacy/" + mapped;
             };
         }])
@@ -62,7 +62,7 @@
                 }
             };
         }])
-        .factory("NavigationMappingService", [ function() {
+        .factory("LegacyNavigationMappingService", [ function() {
             var mapping = {
                 'navigation_search': "element/index.jsp",
                 'navigation_report': "report/index.jsp",
@@ -72,6 +72,7 @@
                 'dashboard': 'dashboard.jsp',
                 'account_selfservice': 'account/selfService/index.jsp',
                 'support': 'support/index.htm',
+                'admin': 'admin/index.jsp'
             };
 
             return {

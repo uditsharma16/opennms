@@ -60,8 +60,8 @@
                 </a>
                 <ul class="dropdown-menu" role="menu">
                     <li><span name="nav-admin-notice-status" style="white-space: nowrap">Notices: <b id="notification{{noticeStatus}}">{{noticeStatus}}</b></span></li>
-                    <li ng-show="user.isAdmin()"><a name="nav-admin-admin" href="admin/index.jsp|legacyUrl" style="white-space: nowrap">Configure OpenNMS</a></li>
-                    <li ng-show="user.isAdmin() || user.isProvision()"><a name="nav-admin-quick-add" href="admin/ng-requisitions/quick-add-node.jsp#/" style="white-space: nowrap">Quick-Add Node</a></li>
+                    <li ng-show="user.isAdmin()"><a name="nav-admin-admin" href="{{'admin/index.jsp'|legacyUrl}}" style="white-space: nowrap">Configure OpenNMS</a></li>
+                    <li ng-show="user.isAdmin() || user.isProvision()"><a name="nav-admin-quick-add" href="#admin/requisitions/quickaddnode" style="white-space: nowrap">Quick-Add Node</a></li>
                     <li><a name="nav-admin-support" href="#legacy/support">Help/Support</a></li>
                     <li><a name="nav-admin-self-service" href="#legacy/account_selfservice">Change Password</a>
                     <li><a name="nav-admin-logout" href="j_spring_security_logout" style="white-space: nowrap">Log Out</a></li>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="onms.ui">
 <head>
+    <title>{{title}}</title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css"/>
     <meta http-equiv="Content-Script-Type" content="text/javascript"/>
@@ -30,10 +31,47 @@
     <!-- general application -->
     <link rel="stylesheet" type="text/css" href="app/css/custom.css" media="screen" />
     <script type="text/javascript" src="app/app.module.js"></script>
-    <script type="text/javascript" src="app/core/header.module.js"></script>
+    <script type="text/javascript" src="app/components/core/header.module.js"></script>
+    <script type="text/javascript" src="app/components/admin/admin.module.js"></script>
 
-    <!-- Requisition -->
+    <!-- ADMIN Requisition -->
+    <link rel="stylesheet" type="text/css" href="lib/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" type="text/css" href="lib/angular-growl-v2/build/angular-growl.css" />
 
+    <script type="text/javascript" src="lib/angular-cookies/angular-cookies.js"></script>
+    <script type="text/javascript" src="lib/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/javascript" src="lib/angular-loading-bar/build/loading-bar.js"></script>
+    <script type="text/javascript" src="lib/angular-growl-v2/build/angular-growl.js"></script>
+    <script type="text/javascript" src="lib/ip-address/dist/ip-address-globals.js"></script>
+    <script type="text/javascript" src="lib/bootbox/bootbox.js"></script>
+
+    <script type="text/javascript" src="app/components/admin/requisition/admin.requisition.module.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/model/RequisitionInterface.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/model/RequisitionNode.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/model/Requisition.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/model/RequisitionsData.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/model/QuickNode.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/services/Requisitions.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/services/Synchronize.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/filters/startFrom.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/directives/requisitionConstraints.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/Move.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/QuickAddNode.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/QuickAddNodeModal.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/CloneForeignSource.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/Detector.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/Policy.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/ForeignSource.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/Asset.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/Interface.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/Node.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/Requisition.js"></script>
+    <script type="text/javascript" src="app/components/admin/requisition/scripts/controllers/Requisitions.js"></script>
+
+    <!-- ADMIN Monitoring Locations -->
+    <script type="text/javascript" src="app/components/core/list.module.js"></script>
+    <script type="text/javascript" src="app/components/admin/location/admin.location.module.js"></script>
+    
     <!-- Add dependencies for new modules/components below -->
 
 </head>
