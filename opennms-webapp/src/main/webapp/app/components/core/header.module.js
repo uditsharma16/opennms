@@ -72,7 +72,29 @@
                 'dashboard': 'dashboard.jsp',
                 'account_selfservice': 'account/selfService/index.jsp',
                 'support': 'support/index.htm',
-                'admin': 'admin/index.jsp'
+                'admin': 'admin/index.jsp',
+                'info_node_list': 'element/nodeList.htm',
+                'info_node_assets': 'asset/index.jsp',
+                'info_node_pathOutage': 'pathOutage/index.jsp',
+                'status_event': 'event/index',
+                'status_alarm': 'alarm/index.htm',
+                'status_notification': 'notification/index.jsp',
+                'status_outage': 'outage/index.jsp',
+                'status_surveillance_view': 'surveillance-view.jsp',
+                'status_heatmap': 'heatmap/index.jsp',
+                'status_trend': 'trend/index.jsp',
+                'status_distributedSummary': 'distributedStatusSummary.htm',
+                'status_scan_reports': 'scanreports/index.jsp',
+                'reports_charts': 'charts/index.jsp',
+                'reports_graphs': 'graph/index.jsp',
+                'reports_ksc': 'KSC/index.jsp',
+                'reports_database': 'report/database/index.htm',
+                'reports_statistics': 'statisticsReports/index.htm',
+                'dashboard_wallboard': 'vaadin-wallboard',
+                'dashboard_dashboard': 'dashboard',
+                'maps_remotepoller': 'RemotePollerMap/index.jsp',
+                'maps_topology': 'topology',
+                'maps_nodes': 'node-maps'
             };
 
             return {
